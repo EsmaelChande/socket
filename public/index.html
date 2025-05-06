@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat 2 Clientes</title>
+</head>
+<body>
+  <h1>Chat Privado</h1>
+  <input type="text" id="mensagem" placeholder="Mensagem..." />
+  <button onclick="enviar()">Enviar</button>
+  <ul id="chat"></ul>
+
+  <script>
+    const socket = new WebSocket(`ws://${location.host}`);
+    socket.onmessage = (event) => {
+      const msg = document.createElement('li');
+      msg.textContent = event.data;
+      document.getElementById('chat').appendChild(msg);
+    };
+
+    function enviar() {
+      const input = document.getElementById('mensagem');
+      socket.send(input.value);
+      input.value = '';
+    }
+  </script>
+</body>
+</html>
+
